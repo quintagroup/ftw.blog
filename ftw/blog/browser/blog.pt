@@ -8,6 +8,9 @@
 
   <body>
 
+    <metal:override fill-slot="top_slot"
+        tal:define="disable_column_one python:request.set('disable_plone.leftcolumn',1);" />
+
     <metal:content-core fill-slot="content-core">
       <metal:content-core define-macro="content-core"
                           tal:define="batch view/batch;
@@ -22,7 +25,7 @@
                    condition="batch">
 
           <div class="blogFilter" tal:condition="view/filters">
-            <span i18n:translate="label_filters">Filtered by these criterions</span>
+            <!-- <span i18n:translate="label_filters">Filtered by these criterions</span> -->
             <span tal:repeat="cat view/filters" tal:content="cat"/>
           </div>
 
@@ -41,97 +44,102 @@
                      class="blogItem"
                      tal:condition="python:item_type=='BlogEntry'">
 
-                  <h2 class="clearfix">
-                    <a href="#"
-                       tal:attributes="href item_url;
-                                       title item_title_or_id"
-                       tal:content="item_title_or_id" />
-                  </h2>
-
-
-                  <div class="documentByLine blogByLine"
-                       i18n:domain="plone">
-                       <div id="defaultByLineInfos"
-                           tal:condition="show_about">
-                            <span class="documentAuthor"
-                                  tal:define="creator python:view.creatorOf(item)"
-                                  tal:condition="creator">
-                              <tal:def define="creator_id creator/id">
-                                <span i18n:domain="ftw.blog" i18n:translate="label_by">by</span>
-                                <a href="#"
-                                   tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${creator_id}"
-                                   tal:content="creator/name"></a>,
-                              </tal:def>
-                            </span>
-
-                            <span class="documentState">
-                              <span i18n:translate="" tal:omit-tag="">State</span>: <span tal:replace="item/review_state" i18n:translate=""/>,
-                            </span>
-                        </div>
-                        <div id="blogByLineInfos">
-                            <span class="documentCreated">
-                                <span i18n:translate="Creation Date">
-                                  created
-                                </span>
-                                <span tal:replace="python:toLocalizedTime(item.CreationDate ,long_format=1)">
-                                  August 16, 2001 at 23:35:59
-                                </span>
-
-                            </span>
-                        </div>
-                  </div>
-
-
-                  <div class="EntryLeadImage">
+                  <div class="entryLeadImage">
                     <img tal:define="obj item/getObject;
                                    scales  obj/@@images"
                        tal:condition="python: obj.showLeadImage() and obj.getLeadimage()"
-                       tal:replace="structure python: scales.tag('leadimage', scale='mini')" />
-
-                    <div class="EntryDescription" tal:content="structure item/Description">
-                    </div>
+                       tal:replace="structure python: scales.tag('leadimage', scale='large')" />
                   </div>
 
-                  <div class="categorization"
-                       tal:define="cat_uids item/getCategoryUids;
-                                   item_tags item/tags"
-                       tal:condition="python: cat_uids or item_tags">
+                  <div class="blogItemBody">
+                    <h2 class="blogItemTitle">
+                      <a href="#"
+                         tal:attributes="href item_url;
+                                         title item_title_or_id"
+                         tal:content="item_title_or_id" />
+                    </h2>
 
-                    <div class="categories" tal:condition="cat_uids">
-                      <span i18n:translate="Categories">Categories</span>:
-                      <tal:categories repeat="cat_uid cat_uids">
+
+                    <p class="blogItemDescription" tal:define="description item/Description; cropped python:description.endswith('...')">
+                      <tal:x replace="description"/>
                         <a href="#"
-                           tal:define="cat_brains  python:context.portal_catalog({'UID':cat_uid});
-                                       brain       python:len(cat_brains) and cat_brains[0] or False"
-                           tal:condition="brain"
-                           tal:attributes="href python:'%s/blog_view?getCategoryUids=%s' % (
-                                           context.absolute_url(), cat_uid)"
-                           tal:content="brain/Title|nothing" /><span tal:condition="not:repeat/cat_uid/end" tal:replace="string:, " />
-                      </tal:categories>
+                           class="blogReadMore"
+                           tal:condition="cropped"
+                           tal:attributes="href item_url;
+                                           title item_title_or_id"> > Read more</a>
+                    </p>
+
+
+                    <div class="blogItemFooter">
+
+                    <div class="blogItemByLine"
+                         i18n:domain="plone">
+                      <div class="blogItemDate">
+                        <span class="documentCreated">
+                          <span tal:replace="python:toLocalizedTime(item.CreationDate ,long_format='1')">
+                            August 16, 2001 at 23:35:59
+                          </span>
+                        </span>
+                      </div>
+                      <div class="blogItemAuthor"
+                           tal:define="creator python:view.creatorOf(item)"
+                           tal:condition="creator">
+                        <tal:def define="creator_id creator/id">
+                          <span i18n:domain="ftw.blog" i18n:translate="label_by">by</span>
+                          <a href="#"
+                             tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${creator_id}"
+                             tal:content="creator/name"></a>
+                        </tal:def>
+                      </div>
+                      <div class="blogItemComments"
+                           i18n:domain="plone"
+                           i18n:translate="comments_header"
+                           tal:condition="python: view.comments_enabled(item)">
+                        <span tal:content="python:view.amount_of_replies(item)"
+                                        i18n:name="comments"></span>
+                        comments
+                      </div>
                     </div>
 
-                    <div class="tags" tal:condition="item_tags">
-                      <span i18n:translate="Tags">Tags</span>:
-                      <tal:tags repeat="tag item_tags">
-                        <a href="#"
-                           tal:define="tag_url python: '%s/@@objects_by_tag_view?tag=%s' % (
-                                       context.absolute_url(), tag)"
-                           tal:attributes="href tag_url"
-                           tal:content="tag">
-                          Tag
-                          </a><span tal:condition="not:repeat/tag/end" tal:replace="string:, " />
-                      </tal:tags>
-                    </div>
-                  </div>
-                  <div class="comments"
-                      i18n:domain="plone"
-                      i18n:translate="comments_header"
-                      tal:condition="python: view.comments_enabled(item)"
-                      >
-                    Comments (<span tal:content="python:view.amount_of_replies(item)"
-                                    i18n:name="comments"></span>)
-                  </div>
+                    <div class="blogItemCategorization"
+                         tal:define="cat_uids item/getCategoryUids;
+                                     item_tags item/tags"
+                         tal:condition="python: cat_uids or item_tags">
 
+                      <div class="blogItemCategories" tal:condition="cat_uids">
+                        <tal:categories repeat="cat_uid cat_uids">
+                          <a href="#"
+                             tal:define="cat_brains  python:context.portal_catalog({'UID':cat_uid});
+                                         brain       python:len(cat_brains) and cat_brains[0] or False"
+                             tal:condition="brain"
+                             tal:attributes="href python:'%s/blog_view?getCategoryUids=%s' % (
+                                             context.absolute_url(), cat_uid)"
+                             tal:content="brain/Title|nothing" /><span tal:condition="not:repeat/cat_uid/end" tal:replace="string:, " />
+                        </tal:categories>
+                      </div>
+
+                      <div class="blogItemTags" tal:condition="item_tags">
+                        <tal:tags repeat="tag item_tags">
+                          <a href="#"
+                             tal:define="tag_url python: '%s/@@objects_by_tag_view?tag=%s' % (
+                                         context.absolute_url(), tag)"
+                             tal:attributes="href tag_url"
+                             tal:content="tag">
+                            Tag
+                            </a><span tal:condition="not:repeat/tag/end" tal:replace="string:, " />
+                        </tal:tags>
+                      </div>
+
+                    </div>
+
+
+
+
+
+
+
+                  </div>
+                  </div>
 
                 </div>
 
