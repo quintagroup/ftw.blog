@@ -9,3 +9,10 @@ class NewPortlet(UpgradeStep):
 
         self.setup_install_profile(
             'profile-ftw.blog.upgrades:1600')
+
+
+class AuthorPortlet(UpgradeStep):
+
+    def __call__(self):
+        self.setup_install_profile(
+            'profile-ftw.blog.upgrades:1610')

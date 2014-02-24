@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<portlets>
+
+  <portlet
+      addview="blog.blogentry.BlogAuthorPortlet"
+      title="Blog Author Portlet"
+      description=""
+      attributes="title"
+      />
+
+</portlets>

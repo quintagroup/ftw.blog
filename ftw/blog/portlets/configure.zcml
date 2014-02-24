@@ -38,4 +38,14 @@
         editview=".blogentry_collection_portlet.EditForm"
         />
 
+    <plone:portlet
+        name="blog.blogentry.BlogAuthorPortlet"
+        interface=".author.IBlogAuthorPortlet"
+        assignment=".author.BlogAuthorPortletAssignment"
+        renderer=".author.BlogAuthorPortletRenderer"
+        addview=".author.BlogAuthorPortletAddForm"
+        view_permission="zope2.View"
+        edit_permission="plone.app.portlets.ManagePortlets"
+        />
+
 </configure>

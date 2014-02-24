@@ -24,6 +24,13 @@
       <for interface="plone.app.portlets.interfaces.IColumn" />
    </portlet>
 
+  <portlet
+      addview="blog.blogentry.BlogAuthorPortlet"
+      title="Blog Author Portlet"
+      description=""
+      attributes="title"
+      />
+
   <assignment
     name="blog-categories"
     category="content_type"
