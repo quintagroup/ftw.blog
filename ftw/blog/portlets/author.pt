@@ -2,68 +2,67 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       tal:omit-tag="">
-<tal:block condition="view/show"
+<tal:block tal:define="authorinfo view/getCreator;
+                       author authorinfo/id;"
+           condition="view/show"
            i18n:domain="plone">
 
-<!-- dl class="portlet portletLogin"
-     tal:condition="view/available" 
+  <dl tal:define="portrait python:view.getPortrait(author)"
+      class="portlet portletAboutAuthor">
 
-</dl>-->
-  <div tal:define="authorinfo view/getCreator;
-                   author  authorinfo/id;
-                   portrait python:view.getPortrait(author)" 
-      id="portletView">
-
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span i18n:translate="">About the author</span>
+        <span class="portletTopRight"></span>
+    </dt>
+    <dd class="portletItem">
       <img src=""
-                         alt=""
-                         class="portraitPhoto"
-                         width="75"
-                         style="float: left; margin: 1em;"
-                         tal:attributes="src portrait/absolute_url" />
-      <!-- Author information -->
-      <h1 class="documentFirstHeading" tal:condition="authorinfo/fullname" tal:content="authorinfo/fullname">
-          Author name
-      </h1>
+           alt=""
+           class="authorPortrait image-left"
+           tal:attributes="src portrait/absolute_url" />
 
-      <h1 class="documentFirstHeading" tal:condition="not: authorinfo/fullname" tal:content="authorinfo/id">
-          Author ID
-      </h1>
+      <p tal:define=" author_fullname authorinfo/fullname;
+                      author_id authorinfo/id;
+                      cropText nocall:context/@@plone/cropText;
+                      description authorinfo/description;
+                      cropped python:cropText(description, 120, '...')">
 
-      <div class="documentDescription" tal:content="authorinfo/description">
-          Author description.
-      </div>
-      <div>
-          <a tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${authorinfo/id}" > more information about author</a> 
-      </div>
-      <tal:authorContent define="author_content python:context.portal_catalog.searchResults(dict(Creator=author,Type='BlogEntry', sort_on='created', sort_order='reverse'))[:5];"
-                                       condition="author_content">
+        <tal:x condition="authorinfo/fullname" replace="author_fullname"/><tal:x condition="not: authorinfo/fullname" replace="author_id"/>,
+        <tal:x replace="cropped"/>
+        <a href="#"
+           class="authorMore"
+           tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${authorinfo/id}"> &#62; More</a>
+      </p>
+    </dd>
+  </dl>
 
-                        <h2 i18n:translate="heading_author_content">
-                            Latest blog entries created by this user
-                        </h2>
+  <dl tal:define="author_content python:context.portal_catalog.searchResults(dict(Creator=author,Type='BlogEntry', sort_on='created', sort_order='reverse'))[:5];"
+      tal:condition="author_content"
+      class="portlet portletAuthorLatestEntries">
 
-                        <div metal:define-macro="user_content_listing">
-                        <table class="vertical listing"
-                               summary="Lists content written by an author grouped by content type"
-                               i18n:attributes="summary summary_author_content_list;">
-                            <tal:repeat repeat="item author_content">
-                                <tr>
-                                    <th tal:define="toLocalizedTime nocall: context/@@plone/toLocalizedTime;"
-                                        tal:content="python:toLocalizedTime(item.Date)"
-                                        style="white-space: nowrap">
-                                        Date
-                                    </th>
-                                    <td>
-                                        <a href="" tal:attributes="href item/getURL"
-                                           tal:content="item/pretty_title_or_id">title</a>
-                                    </td>
-                                </tr>
-                            </tal:repeat>
-                        </table>
-                        </div>
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span i18n:translate="heading_author_content">Latest blog entries created by this user</span>
+        <span class="portletTopRight"></span>
+    </dt>
 
-                     </tal:authorContent>
-  </div>
+    <metal:user-content-listing define-macro="user_content_listing">
+      <tal:repeat repeat="item author_content">
+        <dd class="portletItem">
+          <p>
+            <a href=""
+               tal:attributes="href item/getURL"
+               tal:content="item/pretty_title_or_id">title</a>
+          </p>
+          <p tal:define="toLocalizedTime nocall: context/@@plone/toLocalizedTime;"
+             tal:content="python:toLocalizedTime(item.Date)">
+            Date
+          </p>
+        </dd>
+      </tal:repeat>
+    </metal:user-content-listing>
+
+  </dl>
 
 </tal:block>
 </html>
