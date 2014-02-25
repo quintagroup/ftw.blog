@@ -21,13 +21,13 @@
            class="authorPortrait image-left"
            tal:attributes="src portrait/absolute_url" />
 
-      <p tal:define=" author_fullname authorinfo/fullname;
-                      author_id authorinfo/id;
-                      cropText nocall:context/@@plone/cropText;
-                      description authorinfo/description;
-                      cropped python:cropText(description, 120, '...')">
+      <p tal:define="author_fullname authorinfo/fullname;
+                     author_id authorinfo/id;
+                     cropText nocall:context/@@plone/cropText;
+                     description authorinfo/description;
+                     cropped python:cropText(description, 120, '...')">
 
-        <tal:x condition="authorinfo/fullname" replace="author_fullname"/><tal:x condition="not: authorinfo/fullname" replace="author_id"/>,
+        <strong><tal:x condition="authorinfo/fullname" replace="author_fullname"/><tal:x condition="not: authorinfo/fullname" replace="author_id"/></strong>,
         <tal:x replace="cropped"/>
         <a href="#"
            class="authorMore"
