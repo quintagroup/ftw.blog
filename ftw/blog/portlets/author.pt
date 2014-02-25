@@ -2,12 +2,13 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       tal:omit-tag="">
-<tal:block tal:define="authorinfo view/getCreator;
-                       author authorinfo/id;"
+<tal:block tal:define="author_id  python:context.Creator();
+                       mtool python:context.portal_membership;
+                       authorinfo python: mtool.getMemberInfo(author_id);"
            condition="view/show"
            i18n:domain="plone">
 
-  <dl tal:define="portrait python:view.getPortrait(author)"
+  <dl tal:define="portrait python: mtool.getPersonalPortrait(author_id);"
       class="portlet portletAboutAuthor">
 
     <dt class="portletHeader">
@@ -22,7 +23,6 @@
            tal:attributes="src portrait/absolute_url" />
 
       <p tal:define=" author_fullname authorinfo/fullname;
-                      author_id authorinfo/id;
                       cropText nocall:context/@@plone/cropText;
                       description authorinfo/description;
                       cropped python:cropText(description, 120, '...')">
@@ -31,12 +31,12 @@
         <tal:x replace="cropped"/>
         <a href="#"
            class="authorMore"
-           tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${authorinfo/id}"> &#62; More</a>
+           tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${author_id}"> &#62; More</a>
       </p>
     </dd>
   </dl>
 
-  <dl tal:define="author_content python:context.portal_catalog.searchResults(dict(Creator=author,Type='BlogEntry', sort_on='created', sort_order='reverse'))[:5];"
+  <dl tal:define="author_content python:context.portal_catalog.searchResults(dict(Creator=author_id,Type='BlogEntry', sort_on='created', sort_order='reverse'))[:5];"
       tal:condition="author_content"
       class="portlet portletAuthorLatestEntries">
 

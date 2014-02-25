@@ -27,14 +27,6 @@ class BlogAuthorPortletRenderer(base.Renderer):
             return True
         return False
 
-    def getCreator(self):
-        mtool = getToolByName(self.context, 'portal_membership')
-        return mtool.getMemberById(self.context.Creator())
-
-    def getPortrait(self, member_id):
-        mtool = getToolByName(self.context, 'portal_membership')
-        return mtool.getPersonalPortrait(member_id)
-
 
 class BlogAuthorPortletAddForm(base.NullAddForm):
 
