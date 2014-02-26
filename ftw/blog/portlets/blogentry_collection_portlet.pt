@@ -1,4 +1,4 @@
-<dl class="portlet blogentryCollection"
+<dl class="portlet portletBlogRecentPost"
     i18n:domain="ftw.blog"
     tal:define="plone_view context/@@plone;
                 toLocalizedTime nocall:plone_view/toLocalizedTime;">
@@ -14,30 +14,29 @@
             tal:attributes="class python:'%s%s' % (
                             lastrow and 'lastItem ' or '',
                             oddrow and 'portletItem even' or 'portletItem odd')">
-            <div class="portletItemBody">
-                    <div class="portletItemDate"
-                          tal:content="python:toLocalizedTime(brain.created)" />
 
-                <div class="portletItemTitle" tal:content="brain/Title" />
+            <a tal:attributes="href brain/getURL;"
+               class="recentPostImage image-left"
+               tal:define="img python: view.get_blog_entry_image_by_brain(brain)" tal:condition="img" tal:content="structure img">
+            </a>
 
-                <div class="portletItemDescription"
-                     tal:condition="python: brain.Description and view.data.show_desc">
-                    <div tal:content="brain/Description" />
-                </div>
-            </div>
+            <span class="recentPostDate"
+                  tal:content="python:toLocalizedTime(brain.created)" />
 
-            <div class="portletItemImage"
-                tal:define="img python: view.get_blog_entry_image_by_brain(brain)" tal:condition="img" tal:content="structure img">
-            </div>
-
+            <a class="recentPostBody" tal:attributes="href brain/getURL;">
+                <span class="recentPostTitle" tal:content="brain/Title" />
+            </a>
+            <p class="recentPostDescription"
+               tal:condition="python: brain.Description and view.data.show_desc">
+                <span tal:replace="brain/Description" />
+            </p>
 
             <a class="portletItemMore"
                tal:attributes="href brain/getURL;"
                i18n:translate="label_readmore">
-                Read more
+               Read more
             </a>
+
         </dd>
     </tal:loop>
-
-
 </dl>
