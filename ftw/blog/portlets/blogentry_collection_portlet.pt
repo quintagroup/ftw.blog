@@ -20,18 +20,20 @@
                tal:define="img python: view.get_blog_entry_image_by_brain(brain)" tal:condition="img" tal:content="structure img">
             </a>
 
-            <span class="recentPostDate"
-                  tal:content="python:toLocalizedTime(brain.created)" />
-
-            <a class="recentPostBody" tal:attributes="href brain/getURL;">
-                <span class="recentPostTitle" tal:content="brain/Title" />
-            </a>
+            <p class="recentPostBody">
+                <a class="recentPostTitle" 
+                   tal:attributes="href brain/getURL;"
+                   tal:content="brain/Title">
+                </a>
+                <span class="recentPostDate"
+                      tal:content="python:toLocalizedTime(brain.created)" />
+            </p>
             <p class="recentPostDescription"
                tal:condition="python: brain.Description and view.data.show_desc">
                 <span tal:replace="brain/Description" />
             </p>
 
-            <a class="portletItemMore"
+            <a class="recentPostLinkMore"
                tal:attributes="href brain/getURL;"
                i18n:translate="label_readmore">
                Read more
