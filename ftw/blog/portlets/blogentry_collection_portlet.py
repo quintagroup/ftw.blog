@@ -96,13 +96,13 @@ class Renderer(base.Renderer):
 
         return catalog(query)[:self.data.quantity]
 
-    def get_blog_entry_image_by_brain(self, brain):
+    def get_blog_entry_image_by_brain(self, brain, **kw):
         if not self.data.show_image:
             return False
 
         obj = brain.getObject()
         scale = getMultiAdapter((obj, self.request), name=u"images")
-        scaled_img = scale.scale('leadimage', scale='thumb', direction='down')
+        scaled_img = scale.scale('leadimage', **kw)
 
         if scaled_img:
             return scaled_img.tag()
