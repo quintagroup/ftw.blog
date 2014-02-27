@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.blog">
+
+  <body>
+
+    <metal:override fill-slot="top_slot"
+        tal:define="disable_column_one python:request.set('disable_plone.rightcolumn',1);" />
+
+    <metal:content-core fill-slot="content">
+      <metal:content-core define-macro="content">
+        <h1 class="documentFirstHeading">Contributors</h1>
+        <tal:repeat repeat="author_id view/getContributors">
+
+          <div tal:define="mtool python:context.portal_membership;
+                                 authorinfo python: mtool.getMemberInfo(author_id);"
+                     i18n:domain="plone"
+                     style="display: inline-block;">
+
+            <dl tal:define="portrait python: mtool.getPersonalPortrait(author_id);"
+                class="">
+
+              <dd class="">
+                <img src=""
+                     alt=""
+                     class="image-left"
+                     tal:attributes="src portrait/absolute_url" />
+
+                <p tal:define="author_fullname authorinfo/fullname;
+                               cropText nocall:context/@@plone/cropText;
+                               description authorinfo/description;
+                               cropped python:cropText(description, 120, '...')">
+
+                  <strong><tal:x condition="author_fullname" replace="author_fullname"/><tal:x condition="not: author_fullname" replace="author_id"/></strong>
+                  <br/>
+                  <tal:x replace="cropped"/>
+                  <a href="#"
+                     class=""
+                     tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/author/${author_id}"> &#62; More</a>
+                </p>
+              </dd>
+            </dl>
+
+          </div>
+        </tal:repeat>
+
+
+      </metal:content-core>
+    </metal:content-core>
+  </body>
+</html>

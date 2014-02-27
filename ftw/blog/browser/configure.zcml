@@ -94,5 +94,13 @@
         permission="zope2.View"
         />
 
+    <browser:page
+        name="contributors"
+        for="ftw.blog.interfaces.IBlog"
+        layer="ftw.blog.interfaces.IBlogLayer"
+        class=".contributors.ContributorsView"
+        permission="zope2.View"
+        template="contributors.pt"
+        />
 
 </configure>
