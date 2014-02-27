@@ -16,6 +16,10 @@ class IBlogAuthorPortlet(IPortletDataProvider):
 class BlogAuthorPortletAssignment(base.Assignment):
     implements(IBlogAuthorPortlet)
 
+    @property
+    def title(self):
+        return "Blog Author Portlet"
+
 
 class BlogAuthorPortletRenderer(base.Renderer):
 
