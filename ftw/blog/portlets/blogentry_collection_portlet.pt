@@ -17,7 +17,7 @@
 
             <a tal:attributes="href brain/getURL;"
                class="recentPostImage image-left"
-               tal:define="img python: view.get_blog_entry_image_by_brain(brain, width=64, height=64, direction='down')" tal:condition="img" tal:content="structure img">
+               tal:define="img python: view.get_blog_entry_image_by_brain(brain, width=52, height=52, direction='down')" tal:condition="img" tal:content="structure img">
             </a>
 
             <p class="recentPostBody">
