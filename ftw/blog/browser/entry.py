@@ -6,6 +6,7 @@ from ftw.tagging.interfaces.tagging import ITagRoot
 from ftw.tagging.utils import getInterfaceRoot
 from zope.component import getMultiAdapter
 from zope.interface import implements
+from Products.CMFCore.utils import getToolByName
 
 
 class BlogEntryView(BrowserView):
@@ -37,3 +38,12 @@ class BlogEntryView(BrowserView):
     def amount_of_replies(self):
         conversation = IConversation(self.context)
         return len([thread for thread in conversation.getThreads()])
+
+    def get_same_author_blog_entries(self):
+        catalog = getToolByName(self.context, 'portal_catalog')
+        query = {
+            'portal_type': 'BlogEntry',
+            'Creator': self.context.Creator()}
+        results = catalog.searchResults(query)
+        uid = self.context.UID()
+        return list(item.getObject() for item in results if item.UID != uid)
