@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="ftw.blog">
+
+  <body>
+
+    <metal:override fill-slot="top_slot"
+        tal:define="disable_column_one python:request.set('disable_plone.rightcolumn',1);" />
+
+    <metal:content-core fill-slot="content-core">
+      <metal:content-core define-macro="content-core">
+
+        <h1 class="documentFirstHeading"> Archives </h1>
+
+        <dl class="collapsible collapsedOnLoad"
+            tal:define="records python: view.items()"
+            tal:repeat="year records">
+
+            <dt class="collapsibleHeader">
+                <span class="yearnumber" tal:content="year" />
+            </dt>
+            <dd class="collapsibleContent">
+                  <dl class="collapsible collapsedOnLoad"
+                      tal:repeat="month python:records[year]">
+
+                    <dt class="collapsibleHeader">
+                        <span class="month" tal:content="month" />
+                    </dt>
+                    <dd class="collapsibleContent">
+                        <ul>
+                            <li class="month"
+                                tal:repeat="item python:records[year][month]">
+                                 <small tal:content="item/date"></small> -
+                                 <a tal:attributes="href item/url" target="_blank" tal:content="item/title"></a>
+                            </li>
+                        </ul>
+                    </dd>
+                </dl>
+            </dd>
+
+        </dl>
+
+      </metal:content-core>
+    </metal:content-core>
+  </body>
+</html>

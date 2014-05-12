@@ -10,6 +10,14 @@
         />
 
     <browser:page
+        for="ftw.blog.interfaces.IBlog"
+        name="archives"
+        class=".archive.ArchiveView"
+        permission="zope2.View"
+        template="archive.pt"
+        />
+
+    <browser:page
         for="*"
         name="blog_entry_view"
         class=".entry.BlogEntryView"
