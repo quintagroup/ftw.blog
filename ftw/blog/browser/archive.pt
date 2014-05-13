@@ -29,6 +29,7 @@
 
                     <dt class="collapsibleHeader">
                         <span class="month" tal:content="month" />
+                        (<span tal:content="python:len(records[year][month])"></span>)
                     </dt>
                     <dd class="collapsibleContent">
                         <ul>
