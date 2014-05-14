@@ -1,6 +1,8 @@
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from collections import OrderedDict
+from zope.i18n import translate
+from Products.CMFPlone.i18nl10n import monthname_msgid
 
 
 class ArchiveView(BrowserView):
@@ -14,7 +16,9 @@ class ArchiveView(BrowserView):
         results = OrderedDict()
         for item in portal_catalog.searchResults(query):
             year = item.created.year()
-            month = item.created.Month()
+            month_abbr = monthname_msgid(item.created.month())
+            month = translate(month_abbr, 'plonelocales',
+                              context=self.request, default=month_abbr)
             results.setdefault(year, OrderedDict()).setdefault(month, []).append(
                 {'title': item.Title,
                  'date': item.created.strftime("%d/%m/%y"),
