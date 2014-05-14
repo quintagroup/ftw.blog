@@ -1,0 +1,4 @@
+<div i18n:domain="plone">
+  <a tal:attributes="href python: context.absolute_url() + '/archives'">Archives</a>
+  <a tal:attributes="href python: context.absolute_url() + '/contributors'">Contributors</a>
+</div>
