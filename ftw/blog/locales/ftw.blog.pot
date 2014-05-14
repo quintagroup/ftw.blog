@@ -17,6 +17,10 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: ftw.blog\n"
 
+#: ./ftw/blog/browser/archive.pt:17
+msgid "Archives"
+msgstr "Archives"
+
 #: ./ftw/blog/portlets/archiv.pt:12
 msgid "Archive"
 msgstr ""

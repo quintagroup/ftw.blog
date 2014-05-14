@@ -11,6 +11,10 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
 
+#: ./ftw/blog/browser/archive.pt:17
+msgid "Archives"
+msgstr "Archive"
+
 #: ./ftw/blog/portlets/archiv.pt:12
 msgid "Archive"
 msgstr "Archiv"
