@@ -11,7 +11,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
 
+#: ./ftw/blog/viewlets/blog_navigation.pt:6
+msgid "Contributors"
+msgstr "Beiträger"
+
 #: ./ftw/blog/browser/archive.pt:17
+#: ./ftw/blog/viewlets/blog_navigation.pt:5
 msgid "Archives"
 msgstr "Archive"
 
