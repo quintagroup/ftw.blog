@@ -1,4 +1,7 @@
-<div i18n:domain="plone">
-  <a tal:attributes="href python: context.absolute_url() + '/archives'">Archives</a>
-  <a tal:attributes="href python: context.absolute_url() + '/contributors'">Contributors</a>
+<div i18n:domain="ftw.blog"
+  tal:define="type context/portal_type;
+              blog_object python: type =='BlogEntry' and context.getParentNode() or context;
+              base_url blog_object/absolute_url">
+  <a tal:attributes="href python: base_url + '/archives'" i18n:translate="">Archives</a>
+  <a tal:attributes="href python: base_url + '/contributors'" i18n:translate="">Contributors</a>
 </div>
