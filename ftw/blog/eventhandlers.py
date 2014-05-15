@@ -19,7 +19,7 @@ def objectAddedHandler(obj, event):
 
 
 def set_description(obj, event):
-    """Get the first 200 Chars from text and set them as descrption
+    """Get the first 495 Chars from text and set them as descrption
     Use portal_transforms to create plain-text
     """
 
@@ -32,7 +32,7 @@ def set_description(obj, event):
         mimetype='text/html')
     plain_text = datastream.getData()
     # truncate
-    length = 200
+    length = 495
     truncated = ploneview.cropText(plain_text, length)
     obj.getField('description').set(obj, truncated)
     obj.reindexObject()
