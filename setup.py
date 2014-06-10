@@ -1,7 +1,7 @@
 import os
 from setuptools import setup, find_packages
 
-version = '1.6.1.dev2-qg'
+version = '1.6.1.dev3-qg'
 
 maintainer = 'Mathias Leimgruber'
 

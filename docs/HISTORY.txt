@@ -1,6 +1,11 @@
 Changelog
 =========
 
+1.6.1.dev3-qg (2014-06-10)
+------------------
+
+- Allowed for showing categories only with 1 or more articles associate on blog portlet
+
 
 1.6.1 (unreleased)
 ------------------
