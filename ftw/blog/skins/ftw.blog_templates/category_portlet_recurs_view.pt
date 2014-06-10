@@ -16,7 +16,8 @@
         tal:condition="python: bottomLevel &lt;= 0 or level &lt; bottomLevel-1">
 
         <li tal:define="showrss python:level == 0;
-                                            member python:context.portal_membership.getAuthenticatedMember();">
+                                            member python:context.portal_membership.getAuthenticatedMember();"
+            tal:condition="node/count_refs">
             <span class="rss clearfix" tal:omit-tag="not:showrss">
                     <a tal:attributes="href link_url"
                        tal:content="string: ${item/Title} (${node/count_refs})" />
